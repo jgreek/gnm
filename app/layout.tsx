@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import theme from "@/themes/theme";
-import {ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
+import {ClerkProvider,} from "@clerk/nextjs";
 
 
 export default function RootLayout({

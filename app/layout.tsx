@@ -25,14 +25,7 @@ export default function RootLayout({
                 }}>
                     <Header/>
                     <main style={{flex: 1, padding: '2rem'}}>
-                        <SignedOut>
-                            <SignInButton/>
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton afterSignOutUrl="/"/>
-                        </SignedIn>
                         {children}
-
                     </main>
                     <Footer/>
                 </div>

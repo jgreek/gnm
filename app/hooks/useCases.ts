@@ -39,5 +39,27 @@ export function useCases(ids?: string[]) {
     fetchCases();
   }, [ids]);
 
-  return { cases, loading, error };
+  const deleteCase = async (id: string) => {
+    setError(null); // Clear any previous errors
+
+    try {
+      const response = await fetch(`/api/cases/${id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to delete case');
+      }
+
+      setCases(prevCases => prevCases.filter(c => c.id !== id));
+      return true;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to delete case';
+      setError(errorMessage);
+      throw new Error(errorMessage); // Re-throw the error for the component to handle
+    }
+  };
+  return { cases, loading, error, deleteCase };
 }

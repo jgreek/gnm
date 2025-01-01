@@ -12,14 +12,29 @@ import {
  FormHelperText,
  Paper
 } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import {useIntakeForm} from "@/app/hooks/useIntakeForm";
 
 interface IntakeWizardProps {
- onComplete: () => void;
+  onCompleteAction: () => void;  // Renamed to indicate Server Action
 }
 
-export const IntakeWizard: React.FC<IntakeWizardProps> = ({ onComplete }) => {
- const { formData, errors, isLoading, error, handleChange, handleSubmit } = useIntakeForm(onComplete);
+export const IntakeWizard: React.FC<IntakeWizardProps> = ({ onCompleteAction }) => {
+ const router = useRouter();
+
+  const handleFormComplete = () => {
+    onCompleteAction();
+    router.push('/confirmation'); // Add the path to your confirmation page
+  };
+
+  const {
+    formData,
+    errors,
+    isLoading,
+    error,
+    handleChange,
+    handleSubmit
+  } = useIntakeForm(handleFormComplete);
 
  return (
    <Paper component="form" onSubmit={handleSubmit} sx={{ p: 4 }}>

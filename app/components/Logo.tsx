@@ -33,36 +33,36 @@ const GNMLogo: React.FC<GNMLogoProps> = ({ className, width = 120, height = 120 
         <radialGradient id="a" cx="0" cy="0" r="1"
                         gradientTransform="matrix(-27.40125 -33.47302 31.47539 -25.76598 95.512 51.286)"
                         gradientUnits="userSpaceOnUse">
-          <stop offset="0.096" stop-color="#00AEFF"></stop>
-          <stop offset="0.773" stop-color="#2253CE"></stop>
-          <stop offset="1" stop-color="#0736C4"></stop>
+          <stop offset="0.096" stopColor="#00AEFF"></stop>
+          <stop offset="0.773" stopColor="#2253CE"></stop>
+          <stop offset="1" stopColor="#0736C4"></stop>
         </radialGradient>
         <radialGradient id="b" cx="0" cy="0" r="1" gradientTransform="rotate(51.84 -70.254 70.14)scale(39.9779 38.7796)"
                         gradientUnits="userSpaceOnUse">
-          <stop stop-color="#FFB657"></stop>
-          <stop offset="0.634" stop-color="#FF5F3D"></stop>
-          <stop offset="0.923" stop-color="#C02B3C"></stop>
+          <stop stopColor="#FFB657"></stop>
+          <stop offset="0.634" stopColor="#FF5F3D"></stop>
+          <stop offset="0.923" stopColor="#C02B3C"></stop>
         </radialGradient>
         <radialGradient id="e" cx="0" cy="0" r="1"
                         gradientTransform="matrix(-31.67773 90.58917 -108.5232 -37.949 103.796 30.703)"
                         gradientUnits="userSpaceOnUse">
-          <stop offset="0.066" stop-color="#8C48FF"></stop>
-          <stop offset="0.5" stop-color="#F2598A"></stop>
-          <stop offset="0.896" stop-color="#FFB152"></stop>
+          <stop offset="0.066" stopColor="#8C48FF"></stop>
+          <stop offset="0.5" stopColor="#F2598A"></stop>
+          <stop offset="0.896" stopColor="#FFB152"></stop>
         </radialGradient>
         <linearGradient id="c" x1="31.75" x2="37.471" y1="18.75" y2="84.938" gradientUnits="userSpaceOnUse">
-          <stop offset="0.156" stop-color="#0D91E1"></stop>
-          <stop offset="0.487" stop-color="#52B471"></stop>
-          <stop offset="0.652" stop-color="#98BD42"></stop>
-          <stop offset="0.937" stop-color="#FFC800"></stop>
+          <stop offset="0.156" stopColor="#0D91E1"></stop>
+          <stop offset="0.487" stopColor="#52B471"></stop>
+          <stop offset="0.652" stopColor="#98BD42"></stop>
+          <stop offset="0.937" stopColor="#FFC800"></stop>
         </linearGradient>
         <linearGradient id="d" x1="36.75" x2="39.874" y1="10" y2="82.213" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#3DCBFF"></stop>
-          <stop offset="0.247" stop-color="#0588F7" stop-opacity="0"></stop>
+          <stop stopColor="#3DCBFF"></stop>
+          <stop offset="0.247" stopColor="#0588F7" stopOpacity="0"></stop>
         </linearGradient>
         <linearGradient id="f" x1="106.964" x2="106.923" y1="33.365" y2="53.037" gradientUnits="userSpaceOnUse">
-          <stop offset="0.058" stop-color="#F8ADFA"></stop>
-          <stop offset="0.708" stop-color="#A86EDD" stop-opacity="0"></stop>
+          <stop offset="0.058" stopColor="#F8ADFA"></stop>
+          <stop offset="0.708" stopColor="#A86EDD" stopOpacity="0"></stop>
         </linearGradient>
       </defs>
     </svg>

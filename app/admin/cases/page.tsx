@@ -1,5 +1,7 @@
 'use client';
 
+import { useUser } from "@clerk/nextjs";
+import { redirect } from 'next/navigation';
 import {
   Box,
   Card,
@@ -11,11 +13,27 @@ import {
   Grid,
 } from '@mui/material';
 import { format } from 'date-fns';
-import {useCases} from "@/app/hooks/useCases";
+import { useCases } from "@/app/hooks/useCases";
 
 export default function CasesAdmin() {
+  const { user, isLoaded } = useUser();
   const { cases, loading, error } = useCases();
 
+  // Wait for Clerk to load
+  if (!isLoaded) {
+    return (
+      <Box display="flex" justifyContent="center" p={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Check for admin permission
+  if (isLoaded && user?.publicMetadata?.role !== 'admin') {
+    redirect('/');
+  }
+
+  // Loading state for cases
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" p={4}>
@@ -24,6 +42,7 @@ export default function CasesAdmin() {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <Box p={4}>
@@ -31,17 +50,14 @@ export default function CasesAdmin() {
       </Box>
     );
   }
-
   return (
     <Box p={4}>
       <Typography variant="h4" gutterBottom>
         Legal Cases
       </Typography>
-
       <Typography variant="subtitle1" color="text.secondary" gutterBottom>
         {cases.length} cases found
       </Typography>
-
       <Grid container spacing={3}>
         {cases.map((caseItem) => (
           <Grid item xs={12} md={6} lg={4} key={caseItem.id}>
@@ -64,11 +80,9 @@ export default function CasesAdmin() {
                     {format(new Date(caseItem.timestamp), 'PPp')}
                   </Typography>
                 </Box>
-
                 <Typography variant="body1" gutterBottom>
                   {caseItem.description}
                 </Typography>
-
                 {caseItem.additionalInfo && (
                   <Box mt={2}>
                     <Typography variant="body2" color="text.secondary">
@@ -79,7 +93,6 @@ export default function CasesAdmin() {
                     </Typography>
                   </Box>
                 )}
-
                 <Typography variant="caption" color="text.secondary">
                   ID: {caseItem.id}
                 </Typography>

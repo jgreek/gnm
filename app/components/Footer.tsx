@@ -16,7 +16,7 @@ export default function Footer() {
       }}
     >
       <Typography variant="body2" color="text.secondary" align="center">
-        © 2024 Gringas No Mundo. All rights reserved.
+        © {new Date().getFullYear()} Gringas No Mundo. All rights reserved.
       </Typography>
     </Box>
   );

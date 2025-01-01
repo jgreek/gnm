@@ -8,7 +8,7 @@ import {
   Grid,
   Card,
   CardContent,
-  CardActions
+  CardActions,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import SearchIcon from '@mui/icons-material/Search';
@@ -24,7 +24,7 @@ export default function Home() {
       <Box
         sx={{
           textAlign: 'center',
-          py: 8
+          py: 8,
         }}
       >
         <Typography
@@ -35,7 +35,7 @@ export default function Home() {
             background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            mb: 4
+            mb: 4,
           }}
         >
           Professional Opportunities for Brazilian Talent
@@ -46,10 +46,11 @@ export default function Home() {
           gutterBottom
           sx={{
             color: '#64748B',
-            mb: 6
+            mb: 6,
           }}
         >
-          Expert guidance for Brazilian professionals seeking career advancement in the United States
+          Expert guidance for Brazilian professionals seeking career advancement
+          in the United States
         </Typography>
 
         <Button
@@ -61,12 +62,12 @@ export default function Home() {
             '&:hover': {
               background: 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%)',
               transform: 'translateY(-2px)',
-              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)'
+              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)',
             },
             py: 2,
             px: 4,
             borderRadius: 2,
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
           }}
         >
           Request Consultation
@@ -79,18 +80,27 @@ export default function Home() {
           {
             icon: <SearchIcon sx={{ fontSize: 48, color: '#2563EB', mb: 2 }} />,
             title: 'Career Placement',
-            description: 'Comprehensive support for professional placement and career development'
+            description:
+              'Comprehensive support for professional placement and career development',
+            isDisabled: true,
           },
           {
-            icon: <PostAddIcon sx={{ fontSize: 48, color: '#2563EB', mb: 2 }} />,
+            icon: (
+              <PostAddIcon sx={{ fontSize: 48, color: '#2563EB', mb: 2 }} />
+            ),
             title: 'Employment Resources',
-            description: 'Access vital information about work authorization and immigration'
+            description:
+              'Access vital information about work authorization and immigration',
+            link: '/employment-resources',
+            isDisabled: false,
           },
           {
             icon: <WorkIcon sx={{ fontSize: 48, color: '#2563EB', mb: 2 }} />,
             title: 'Opportunity Network',
-            description: 'Connect with companies seeking Brazilian professional talent'
-          }
+            description:
+              'Connect with companies seeking Brazilian professional talent',
+            isDisabled: true,
+          },
         ].map((service, index) => (
           <Grid item xs={12} md={4} key={index}>
             <Card
@@ -101,10 +111,10 @@ export default function Home() {
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: '0 12px 24px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 12px 24px rgba(0, 0, 0, 0.1)',
                 },
                 border: '1px solid rgba(37, 99, 235, 0.1)',
-                borderRadius: 3
+                borderRadius: 3,
               }}
             >
               <CardContent sx={{ flexGrow: 1, textAlign: 'center', py: 4 }}>
@@ -119,15 +129,16 @@ export default function Home() {
               <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
                 <Button
                   size="large"
-                  disabled
+                  disabled={service.isDisabled}
+                  onClick={() => service.link && router.push(service.link)}
                   sx={{
                     color: '#2563EB',
                     '&.Mui-disabled': {
-                      color: '#94A3B8'
-                    }
+                      color: '#94A3B8',
+                    },
                   }}
                 >
-                  Coming Soon
+                  {service.isDisabled ? 'Coming Soon' : 'Learn More'}
                 </Button>
               </CardActions>
             </Card>

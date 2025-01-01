@@ -2,20 +2,14 @@
 
 import { useState, FormEvent } from 'react';
 import { useSaveIntake } from './useSaveIntake';
-
-interface FormData {
-  description: string;
-  state: string;
-  caseType: string;
-  additionalInfo: string;
-}
+import { FormData } from '@/app/types/intake';
 
 interface UseIntakeForm {
   formData: FormData;
   errors: Partial<FormData>;
   isLoading: boolean;
   error: string | null;
-  handleChange: (field: keyof FormData) => (event: any) => void;
+  handleChange: (field: keyof FormData) => (event: { target: { value: string } }) => void;
   handleSubmit: (e: FormEvent) => Promise<void>;
 }
 
@@ -47,19 +41,20 @@ export const useIntakeForm = (onComplete: () => void): UseIntakeForm => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (field: keyof FormData) => (event: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-
-    if (errors[field]) {
-      setErrors(prev => ({
+  const handleChange = (field: keyof FormData) =>
+    (event: { target: { value: string } }) => {
+      setFormData(prev => ({
         ...prev,
-        [field]: undefined
+        [field]: event.target.value
       }));
-    }
-  };
+
+      if (errors[field]) {
+        setErrors(prev => ({
+          ...prev,
+          [field]: undefined
+        }));
+      }
+    };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

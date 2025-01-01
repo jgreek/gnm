@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { readFile } from 'fs/promises';
 import path from 'path';
+import {IntakeData} from "@/app/types/intake";
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
@@ -12,12 +13,11 @@ const s3Client = new S3Client({
   }
 });
 
-async function getAllCasesFromS3(ids?: string[]) {
+async function getAllCasesFromS3(ids?: string[]): Promise<IntakeData[]> {
   const bucketName = process.env.AWS_BUCKET_NAME!;
   const prefix = 'gnm/cases/';
 
   try {
-    // List all objects in the cases directory
     const listCommand = new ListObjectsV2Command({
       Bucket: bucketName,
       Prefix: prefix,
@@ -26,7 +26,6 @@ async function getAllCasesFromS3(ids?: string[]) {
     const listedObjects = await s3Client.send(listCommand);
     if (!listedObjects.Contents) return [];
 
-    // Filter by IDs if provided
     let keysToFetch = listedObjects.Contents.map(obj => obj.Key!);
     if (ids) {
       keysToFetch = keysToFetch.filter(key =>
@@ -34,21 +33,19 @@ async function getAllCasesFromS3(ids?: string[]) {
       );
     }
 
-    // Fetch all matching cases in parallel
     const cases = await Promise.all(
       keysToFetch.map(async (key) => {
         const getCommand = new GetObjectCommand({
           Bucket: bucketName,
           Key: key,
         });
-
         const response = await s3Client.send(getCommand);
         const data = await response.Body?.transformToString();
-        return data ? JSON.parse(data) : null;
+        return data ? (JSON.parse(data) as IntakeData) : null;
       })
     );
 
-    return cases.filter(Boolean);
+    return cases.filter((item): item is IntakeData => item !== null);
   } catch (error) {
     console.error('S3 get error:', error);
     throw error;
@@ -66,21 +63,15 @@ export async function GET(request: Request) {
     } catch (s3Error) {
       console.error('S3 get failed, falling back to JSON file:', s3Error);
 
-      // Fallback to JSON file
       const filePath = path.join(process.cwd(), 'intake-data.json');
-      try {
-        const fileContent = await readFile(filePath, 'utf-8');
-        let allData = JSON.parse(fileContent);
+      const fileContent = await readFile(filePath, 'utf-8');
+      let allData = JSON.parse(fileContent) as IntakeData[];
 
-        // Filter by IDs if provided
-        if (ids) {
-          allData = allData.filter((item: any) => ids.includes(item.id));
-        }
-
-        return NextResponse.json({ cases: allData });
-      } catch (readError) {
-        return NextResponse.json({ cases: [] });
+      if (ids) {
+        allData = allData.filter((item) => ids.includes(item.id));
       }
+
+      return NextResponse.json({ cases: allData });
     }
   } catch (error) {
     console.error('Failed to get cases:', error);
